@@ -1,2 +1,0 @@
-viết global styles.
-các style cụ thể sẽ viết vào từng component tương ứng.
