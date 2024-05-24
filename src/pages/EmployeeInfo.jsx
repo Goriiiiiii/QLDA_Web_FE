@@ -1,13 +1,10 @@
 import React, { useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { AppContexts } from '../contexts/AppContexts';
+
 import { useParams } from 'react-router-dom';
 const EmployeeInfo = () => {
-    const {employees} = useContext
-    const userID = localStorage.getItem("id");
-
-
+    
     const [date, setDate] = useState(null)
     const [isPhongBanDisable, setPhongBanDisable] = useState(true)
     const [isChucVuDisable, setChucVuDisable] = useState(true)
