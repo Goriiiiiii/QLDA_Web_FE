@@ -12,7 +12,8 @@ import EmployeeInfo from './pages/EmployeeInfo';
 import AddRequest from './pages/AddRequest';
 import Requests from './pages/Requests';
 import EmployeeList from './pages/EmployeeList';
-
+import RequestList from './pages/RequestList';
+import AddAnn from './pages/AddAnn';
 function App() {
   return (
     <div className=''>
@@ -29,6 +30,8 @@ function App() {
             <Route path='/lich-phong-hop' element={<RoomTimeTable />} />
             <Route path='/tai-khoan' element={<EmployeeInfo />} />
             <Route path='/danh-sach-nhan-vien' element={<EmployeeList />}/>
+            <Route path='/yeu-cau-can-xu-ly' element={<RequestList />}/>
+            <Route path='/tao-thong-bao' element={<AddAnn/>}/>
           </Routes>
         </BrowserRouter>
       </AppProvider>

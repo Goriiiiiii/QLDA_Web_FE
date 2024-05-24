@@ -40,9 +40,14 @@ const Header = () => {
                                 </Link>
                             </div>
                             <div className="">
-                            
+                            <Link to="/yeu-cau-can-xu-ly">
                                 <a href="#" className='cursor-pointer hover:text-red-500 '>Xét yêu cầu</a>
-                                
+                                </Link>
+                            </div>
+                            <div className="">
+                            <Link to="/tao-thong-bao">
+                                <a href="#" className='cursor-pointer hover:text-red-500 '>Tạo thông báo</a>
+                                </Link>
                             </div>
                             <div className="">
                             <Link to="/dang-ky-phong-hop">

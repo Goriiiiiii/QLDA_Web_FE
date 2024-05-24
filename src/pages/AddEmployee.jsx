@@ -1,114 +1,228 @@
-import React, { useState } from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import React, { useContext, useEffect, useState } from 'react'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+import axios from 'axios';
 
-const AddEmployee = () => {
-    const [date2, setDate2] = useState(null)
-    const [date, setDate] = useState(null)
-    
-    // const handleDateChange = (e.target.value) => {
-    //     setBirthDay(e.target.value);
-    // }
-    const formatDate = (value) =>{
-        const [year, month, day] = value.split('-');
-        return `${day}/${month}/${year}`
-    }  
-    const handleDateChange = (e) => {
-        let value = formatDate(e.target.value);
-        setDate2(value);
+import { AppContexts } from '../contexts/AppContexts';
+import { useParams } from 'react-router-dom';
+
+const EmployeeInfo = () => {
+    const [phongBanDropDown, setPhongBanDropDown] = useState(false)
+    const [chucVuDropDown, setChucVuDropDown] = useState(false)
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [soDienThoai, setSoDienThoai] = useState('')
+    const [ngaySinh, setNgaySinh] = useState(null)
+    const [phongBan, setPhongBan] = useState('')
+    const [phongBan2, setPhongBan2] = useState(true)
+    const [chucVu, setChucVu] = useState(false)
+    const [taiKhoan, setTaiKhoan] = useState("")
+    const [password, setPassWord] = useState("")
+    const [password2, setPassWord2] = useState("")
+
+
+
+    const handleClick = () => {
+        const form = new FormData();
+        
+        form.append("ten", name);
+        let time = ngaySinh.split("-")
+        const ngaySinhUpdate = time[2] + "/" + time[1] + "/" + time[0]
+        form.append("ngaySinh", ngaySinhUpdate);
+        form.append("soDienThoai", soDienThoai);
+        form.append("email", email);
+        form.append("phongBan", phongBan);
+        form.append("truongPhong", chucVu);
+        form.append("taiKhoan", taiKhoan);
+        form.append("matKhau", password);
+
+        if (!email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+            alert("Email không hợp lệ")
+            return
+        }
+        if (!soDienThoai.match(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/)) {
+            alert("Số điện thoại không hợp lệ")
+            return
+        }
+
+        if (password!=password2 )
+            {
+                alert("Mật khẩu không trùng khớp")
+                return 
+            }
+        else if (password.length < 6)
+            {
+                alert("Yêu cầu mật khẩu ít nhất 6 ký tự")
+                return
+            }
+
+
+        axios.post("http://localhost:8081/v1/api/addNhanVien", form, {
+            headers: { "Content-Type": "multipart/form-data" },
+        })
+            .then((res) => {
+                if (res.data) {
+                    alert("Thêm thành công")
+                }
+                else {
+                    alert("Thêm thất bại")
+                }
+            }
+            )
+            .catch(err => {
+                console.log(err)
+            })
+        
+
     }
-    console.log(date2);
+    const handleCvClick = (value) => {
+        setChucVu(value)
+        setChucVuDropDown(!chucVuDropDown)
+    }
+    
+    const handlePBClick = (value) => {
+        if (value == true){
+            setPhongBan("HanhChinh")
+            setPhongBan2(value)
+        }
+        else{
+            setPhongBan("NhanSu")
+            setPhongBan2(value)
+        }
 
+        setPhongBanDropDown(!phongBanDropDown)
+    }
     return (
 
-        <div className="flex flex-col min-h-screen relative">
+        <div className="flex flex-col min-h-screen relative items-center">
             <Header />
-            <div className="pt-28 pb-96 flex flex-col flex-grow w-full items-center justify-center">
-                <div className="flex flex-col w-2/5 bg-white shadow-xl rounded-xl ">
-                    <div className="flex justify-center items-center py-5">
-                        <h1 className="font-bold text-2xl">Thêm nhân viên</h1>
-                    </div>
-                    <div className="pl-10 pr-5 flex flex-row">
-                        <div className="flex justify-center items-center basis-1/4">
-                            <label className="w-full py-2 font-semibold text-lg text-left">Tên nhân viên</label>
+            <div className=" pt-28 pb-96  flex flex-col flex-grow w-3/5 items-center justify-center ">
+                <div className='mt-8 shadow-xl flex flex-col justify-between items-center w-10/12'>
+                    <div className='py-5 pb-5  flex flex-row w-4/5'>
+                        <div className='flex basis-1/5 items-center'>
+                            <p>Họ và tên</p>
                         </div>
-                        <div className="basis-3/4 py-2 px-4">
-                            <input
-                                className="text-gray-700 text-lg border border-gray-300 rounded py-2 px-4 block w-full focus:outline-2 focus:outline-blue-700"
-                                required
-                            />
+                        <div className='flex basis-3/5'>
+                            <input  onChange={(e) => setName(e.target.value)} value={name} className='border py-1 rounded-md pl-3 w-full'></input>
                         </div>
                     </div>
-                    <div className="pl-10 pr-5 flex flex-row">
-                        <div className="flex justify-center items-center basis-1/4">
-                            <label className="w-full py-2 font-semibold text-lg text-left">Số điện thoại</label>
+                    <div className='py-5 pb-5  flex flex-row w-4/5 items-center'>
+                        <div className='flex basis-1/5'>
+                            <p>Số điện thoại</p>
                         </div>
-                        <div className="basis-3/4 py-2 px-4">
-                            <input
-                                className="text-gray-700 text-lg border border-gray-300 rounded py-2 px-4 block w-full focus:outline-2 focus:outline-blue-700"
-                                required
-                            />
+                        <div className='flex basis-3/5'>
+                            <input onChange={(e) => setSoDienThoai(e.target.value)} value={soDienThoai} className='border py-1 rounded-md pl-3 w-full'></input>
                         </div>
                     </div>
-                    <div className="pl-10 pr-5 flex flex-row">
-                        <div className="flex justify-center items-center basis-1/4">
-                            <label className="w-full py-2 font-semibold text-lg text-left">Ngày sinh</label>
+                    <div className='py-5 pb-5  flex flex-row w-4/5 items-center'>
+                        <div className='flex basis-1/5'>
+                            <p>Tài Khoản</p>
                         </div>
-                        
-                        <div className="basis-3/4 py-2 px-4">
-                            <input
-                                className="text-gray-700 text-lg border border-gray-300 rounded py-2 px-4 block w-full focus:outline-2 focus:outline-blue-700"
-                                required
-                                type="date"
-                                value={date}
-                                onChange = {e => handleDateChange(e)}
-                                format ="dd-MM-yyyy"
-                            />
-                        </div>   
-                    </div>
-                    <div className="pl-10 pr-5 flex flex-row">
-                        <div className="flex justify-center items-center basis-1/4">
-                            <label className="w-full py-2 font-semibold text-lg text-left">Phòng ban</label>
-                        </div>
-                        <div className="basis-3/4 py-2 px-4">
-                            <input
-                                className="text-gray-700 text-lg border border-gray-300 rounded py-2 px-4 block w-full focus:outline-2 focus:outline-blue-700"
-                                required
-                            />
+                        <div className='flex basis-3/5'>
+                            <input onChange={(e) => setTaiKhoan(e.target.value)} value={taiKhoan} className='border py-1 rounded-md pl-3 w-full'></input>
                         </div>
                     </div>
-                    <div className="pl-10 pr-5 flex flex-row">
-                        <div className="flex justify-center items-center basis-1/4">
-                            <label className="w-full text-left py-2 font-semibold text-lg">Tài khoản</label>
+                    <div className='py-5 pb-5  flex flex-row w-4/5 items-center'>
+                        <div className='flex basis-1/5'>
+                            <p>Mật khẩu</p>
                         </div>
-                        <div className="basis-3/4 py-2 px-4">
-                            <input
-                                className="text-gray-700 text-lg border border-gray-300 rounded py-2 px-4 block w-full focus:outline-2 focus:outline-blue-700"
-                                required
-                            />
+                        <div className='flex basis-3/5'>
+                            <input onChange={(e) => setPassWord(e.target.value)} value={password} type='password' className='border py-1 rounded-md pl-3 w-full'></input>
                         </div>
                     </div>
-                    <div className="pl-10 pr-5 flex flex-row">
-                        <div className="flex justify-center items-center basis-1/4">
-                            <label className="w-full text-left py-2 font-semibold text-lg">Mật khẩu</label>
+                    <div className='py-5 pb-5  flex flex-row w-4/5 items-center'>
+                        <div className='flex basis-1/5'>
+                            <p>Nhập lại mật khẩu</p>
                         </div>
-                        <div className="basis-3/4 py-2 px-4">
-                            <input
-                                className="text-gray-700 text-lg border border-gray-300 rounded py-2 px-4 block w-full focus:outline-2 focus:outline-blue-700"
-                                required
-                                type="password"
-                            />
+                        <div className='flex basis-3/5'>
+                            <input onChange={(e) => setPassWord2(e.target.value)} value={password2} type='password' className='border py-1 rounded-md pl-3 w-full'></input>
                         </div>
                     </div>
-                    <div className=" flex justify-center items-center py-5">
-                        <button className="bg-cyan-200 rounded-xl text-zinc-500 text-lg px-16 py-2 hover:bg-cyan-700 hover:text-white ">Thêm nhân viên</button>
+                    <div className='py-5 pb-5  flex flex-row w-4/5 items-center'>
+                        <div className='flex basis-1/5'>
+                            <p>Email</p>
+                        </div>
+                        <div className='flex basis-3/5'>
+                            <input onChange={(e) => setEmail(e.target.value)} value={email} className='border py-1 rounded-md pl-3 w-full'></input>
+                        </div>
                     </div>
+                    <div className='py-5 pb-5  flex flex-row w-4/5 items-center'>
+                        <div className='flex basis-1/5'>
+                            <p>Ngày sinh</p>
+                        </div>
+                        <div className='flex basis-3/5'>
+                            <input value={ngaySinh} onChange={(e) => setNgaySinh(e.target.value)} type="date" className='border py-1 rounded-md pl-3 w-full'></input>
+                            {/* console.log(typeOf ) */}
+                        </div>
+                    </div>
+                    <div className='py-5 pb-5  flex flex-row w-4/5'>
+                        <div className='flex basis-1/5'>
+                            <p>Phòng ban</p>
+                        </div>
+                        <div className='flex basis-3/5'>
+                            <button onClick={() => setPhongBanDropDown(true)} className='text-left border py-1 rounded-md pl-3 w-full'>
+                            {phongBan2? "Hành chính" : "Nhân Sự"}
+                            </button>
+                            {phongBanDropDown && (
+                                <div className=" mt-10 bg-cyan-300 rounded-xl absolute w-1/3 item">
 
+                                    <div className="w-full px-3 py-2 hover:bg-cyan-950 hover:text-white" >
+                                        <button
+                                            className="w-full text-left"
+                                            onClick={() => handlePBClick(true)}>
+                                            Hành chính
+                                        </button>
+                                    </div>
+                                    <div className="w-full px-3 py-2 hover:bg-cyan-950 hover:text-white" >
+                                        <button
+                                            className="w-full text-left"
+                                            onClick={() => handlePBClick(false)}>
+                                            Nhân sự
+                                        </button>
+                                    </div>
+
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <div className='py-5 pb-5  flex flex-row w-4/5'>
+                        <div className='flex basis-1/5'>
+                            <p>Chức vụ</p>
+                        </div>
+                        <div className='flex basis-3/5'>
+                            <button onClick={() => setChucVuDropDown(!chucVuDropDown)} className='border py-1 rounded-md pl-3 w-full text-left'>
+                            {chucVu? "Trưởng phòng" : "Nhân viên"}
+                            </button>
+                            {chucVuDropDown && (
+                                <div className=" mt-10 bg-cyan-300 rounded-xl absolute w-1/3 item">
+
+                                    <div className="w-full px-3 py-2 hover:bg-cyan-950 hover:text-white" >
+                                        <button
+                                            className="w-full text-left"
+                                            onClick={() => handleCvClick(false)}>
+                                            Nhân viên
+                                        </button>
+                                    </div>
+                                    <div className="w-full px-3 py-2 hover:bg-cyan-950 hover:text-white" >
+                                        <button
+                                            className="w-full text-left"
+                                            onClick={() => handleCvClick(true)}>
+                                            Trưởng phòng
+                                        </button>
+                                    </div>
+
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <div className='pb-5'>
+                        <button onClick={handleClick} className='px-3 py-3 bg-sky-200 rounded-lg hover:bg-sky-400'>Thêm nhân viên</button>
+                    </div>
                 </div>
+
             </div>
             <Footer />
         </div>
-    );
-};
-
-export default AddEmployee;
+    )
+}
+export default EmployeeInfo

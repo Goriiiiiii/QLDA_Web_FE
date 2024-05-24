@@ -6,23 +6,24 @@ import { TiDelete } from "react-icons/ti";
 import { AppContexts } from "../contexts/AppContexts";
 
 
-const EmployeeList = () => {
+const RequestList = () => {
 
-    const { employees, fetchEmployees} = useContext(AppContexts);
+    const { requests, requestsHandling, employee} = useContext(AppContexts);
     const [searchInput, setSearchInput] = useState("")
     const [searchEmployees, setSearchEmployees] = useState([]);
 
     useEffect(() => {
         let temp = [];
-        for (let i = 0; i < employees.length; i++) {
+        for (let i = 0; i < requestsHandling.length; i++) {
+            
             const searchQuery = searchInput.trim().toLowerCase()
-            const employeeName = employees[i].ten.toLowerCase()
+            const employeeName = requestsHandling[i].ten.toLowerCase()
             const isMatch = (employeeName.includes(searchQuery))
-            if (isMatch) temp.push(employees[i])
+            if (isMatch) temp.push(requestsHandling[i])
         }
         setSearchEmployees(temp);
 
-    }, [employees, searchInput]);
+    }, [requestsHandling, searchInput]);
 
     const handleDeleteBtn = (id) => {
             fetch("http://localhost:8081/v1/api/deleteNhanVien", {
@@ -39,11 +40,11 @@ const EmployeeList = () => {
         .then((data=>{
             if(data)
                 {
-                    alert("Xóa thành công")
-                    fetchEmployees()
+                    alert("Sút thành công")
+                    
                 }
             else{
-                alert("Xóa thất bại")
+                alert("Sút trượt")
             }
         }) 
     
@@ -61,7 +62,7 @@ const EmployeeList = () => {
                     </div>
                     <div className="flex basis-1/5 ">
                         <button
-                             className="w-full py-2 px-2 rounded-lg bg-cyan-200 hover:bg-sky-400">Thêm nhân viên</button>
+                            onClick={() => { navigate("/them-nhan-vien") }} className="w-full py-2 px-2 rounded-lg bg-cyan-200 hover:bg-sky-400">Thêm nhân viên</button>
                     </div>
                 </div>
                 <div className="flex flex-col w-[60%] py-3">
@@ -117,4 +118,4 @@ const EmployeeList = () => {
         </div>
     )
 }
-export default EmployeeList
+export default RequestList
