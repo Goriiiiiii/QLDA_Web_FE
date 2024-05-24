@@ -6,7 +6,9 @@ const Login = () => {
     const [taiKhoan, setTaiKhoan] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate()
+
     const handleClick = () => {
+        console.log('first')
         fetch('http://localhost:8081/v1/api/login', {
             method: 'POST',
             headers: {
