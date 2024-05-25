@@ -12,7 +12,7 @@ const Footer = () => {
                     <p>Luôn sẵn sàng vì một tương lai tươi sáng hơn</p>
                 </div>
             </div>
-            <div className="flex flex-col w-1/3">
+            <div className="flex flex-col w-1/3 px-10">
                 <div className="py-2">
                     <p className="font-semibold text-xl">Liên hệ</p>
                 </div>
@@ -41,7 +41,7 @@ const Footer = () => {
                 
 
             </div>
-            <div className="flex flex-col w-1/3">
+            <div className="flex flex-col w-1/3 px-16 ">
                 <div className="py-2 pl-2 flex">
                     <p className="font-semibold text-xl">Theo dõi chúng tôi tại</p>
                 </div>

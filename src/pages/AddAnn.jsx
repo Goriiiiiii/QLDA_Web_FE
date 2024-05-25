@@ -59,8 +59,9 @@ const AddAnn = () => {
             .then((data => {
                 if (data) {
                     alert("Tạo thông báo thành công")
-                    navigate("/trang-chu")
                     fetchAnns()
+                    navigate("/trang-chu")
+                    
                 }
                 else {
                     alert("Tạo thông báo thất bại")
@@ -90,14 +91,14 @@ const AddAnn = () => {
                                         <button
                                             className="w-full text-left"
                                             onClick={() => handleTypeClick(type)}>
-                                            {type.loai}
+                                            {type.loai =="Nghi"?"Thông báo nghỉ":type.loai =="Chung"?"Thông báo chung":"Thông báo phòng họp"}
                                         </button>
                                     </div>
                                 ))}
                             </div>
                         )}
                         <div className="flex basis-2/3">
-                            <label className="w-full text-center">{selectedType ? selectedType.loai : "Chưa chọn loại thông báo"}</label>
+                            <label className="w-full text-center">{selectedType.loai =="Nghi"?"Thông báo nghỉ":selectedType.loai =="Chung"?"Thông báo chung":selectedType.loai =="PhongHop"? "Thông báo phòng họp":"Chưa chọn loại thông báo"}</label>
                         </div>
 
                     </div>

@@ -34,6 +34,7 @@ const EditRequest = () => {
     const [pheDuyet, setPheDuyet] = useState()
     const [done,setDone] = useState()
     const [phanHoi, setPhanHoi] = useState("");
+    const [tenNV, setTenNV] = useState("")
 
     const handleResultClick = (value) => {
         setPheDuyet(value);
@@ -51,6 +52,7 @@ const EditRequest = () => {
                     {
                         setPheDuyet(res.data.pheDuyet)
                     }
+                setTenNV(res.data.nhanVienId.ten)
 
             })
             .catch(err => {
@@ -105,8 +107,11 @@ const EditRequest = () => {
                         <h1 className="font-bold text-2xl">Xét Yêu cầu </h1>
                     </div>
                     
-                    <div className="flex flex-row w-full">
+                    <div className="flex flex-col w-full px-10">
 
+                        <div className="flex w-4/5 px-10 py-4">
+                            <label className="w-4/5 text-left">Tên nhân viên: {tenNV}</label>
+                        </div>
                         <div className="flex px-10 w-4/5">
                             <label className="w-4/5 text-left">Loại đơn: {ten}</label>
                         </div>
@@ -114,7 +119,7 @@ const EditRequest = () => {
                     </div>
 
                     <div className="pt-5 px-10">
-                        <label className="w-full text-center italic">{noiDung}</label>
+                        <label className="px-10 w-full text-center italic">{noiDung}</label>
                     </div>
                     <div className="flex flex-col py-5 w-full justify-center items-center">
                         <p className="w-4/5 pb-3 text-left">Lý do:</p>
@@ -148,7 +153,7 @@ const EditRequest = () => {
                         </div>
                     </div>
                     <div className=" flex justify-center items-center pt-20 pb-5">
-                        <button onClick={handleSubmit} className="bg-cyan-200 rounded-xl text-zinc-500 text-lg px-16 py-2 hover:bg-cyan-700 hover:text-white ">Gửi yêu cầu</button>
+                        <button onClick={handleSubmit} className="bg-cyan-200 rounded-xl text-zinc-500 text-lg px-16 py-2 hover:bg-cyan-700 hover:text-white ">Xét</button>
                     </div>
 
 

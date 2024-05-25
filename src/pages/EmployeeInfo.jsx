@@ -169,7 +169,7 @@ const EmployeeInfo = () => {
                             <p>Phòng ban</p>
                         </div>
                         <div className='flex basis-3/5'>
-                            <input value={phongBan} disabled className='border py-1 rounded-md pl-3 w-full'></input>
+                            <input value={phongBan == "NhanSu" ? "Nhân Sự" : "Hành Chính"} disabled className='border py-1 rounded-md pl-3 w-full'></input>
                         </div>
                     </div>
                     <div className='py-5 pb-5  flex flex-row w-4/5'>

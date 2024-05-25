@@ -78,7 +78,7 @@ export const AppProvider = ({ children }) => {
             requestsHandling, setRequestsHandling,
             employees, setEmployees,
             rooms, setRooms,
-            fetchEmployees, fetchRequestsHandling
+            fetchEmployees, fetchRequestsHandling, fetchAnns
         }}>
             {children}
         </AppContexts.Provider>

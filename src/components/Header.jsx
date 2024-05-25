@@ -9,12 +9,14 @@ const Header = () => {
     const userID = localStorage.getItem("id")
 const[chucVu, setChucVu] = useState(false)
 const[phongBan, setPhongBan] = useState("")
+const[avatar, setAvatar] = useState("")
     useEffect(() => {
         axios.get(`http://localhost:8081/v1/api/getNhanVien/` + userID )
             .then(res => {
 
                 setChucVu(res.data.truongPhong);
                 setPhongBan(res.data.phongBan)
+                setAvatar(res.data.avatar)
 
                 
             })
@@ -61,7 +63,7 @@ const[phongBan, setPhongBan] = useState("")
 
                     <div className=" flex flex-row w-full items-center h-auto justify-end">
 
-                        <div className={"h-full text-black  flex flex-row justify-around" + `${chucVu?" w-2/3":" w-3/5 "}`}>
+                        <div className={"h-full text-black  flex flex-row justify-around w-3/5"}>
                             <div>
                             <Link to="/gui-yeu-cau">
                                 <a href="#" className='cursor-pointer hover:text-red-500 '>Tạo yêu cầu</a>
@@ -94,14 +96,14 @@ const[phongBan, setPhongBan] = useState("")
 
                                     <div className="relative w-full">
                                         <div className="flex justify-center">
-                                        <FontAwesomeIcon
-                                            icon={faUser}
-                                            className="text-black text-2xl cursor-pointer"
+                                        <img 
+                                            src={avatar}
+                                            className="cursor-pointer h-[50px] w-[50px] rounded-full"
                                          onClick={toogleUserDropdown}
                                         />
                                         </div>
                                         {userDropdown && (
-                                        <div ref={userRef} className="mt-5 bg-cyan-300 rounded-xl w-[140%] -inset-x-36 absolute flex flex-col justify-center items-center">
+                                        <div ref={userRef} className="mt-2 bg-cyan-300 rounded-xl w-[140%] -inset-x-16 absolute flex flex-col justify-center items-center">
                                             <ul className="w-full font-semibold">
                                             <Link to="/tai-khoan">
                                             <li className="w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700 pl-2">Thông tin tài khoản</li>

@@ -13,7 +13,7 @@ const RenderRegisterRoom = ({ datas }) => {
             <div className="w-full rounded-b-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                 
                 <div className="py-1 flex flex-col items-center">
-                <div className='text-xl font-medium w-1/3 flex flex-row h-auto justify-between py-2'>
+                <div className='text-sm font-medium w-2/5 flex flex-row h-auto justify-between py-2 px-1'>
                         <div>
                             <p>Tên phòng</p>
                         </div>
@@ -28,7 +28,7 @@ const RenderRegisterRoom = ({ datas }) => {
                     </div>
                     {datas.map((data, index) => (
 
-                        <div key={index} className='w-1/3 flex flex-row h-auto rounded-md border-2 border-gray-500 justify-between py-5 px-5'>
+                        <div key={index} className='w-2/5 flex flex-row h-auto rounded-md border-2 border-gray-500 justify-between py-5 px-5'>
                             <div>
                                 <p>{data.ten}</p>
                             </div>

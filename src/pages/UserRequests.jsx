@@ -47,9 +47,9 @@ const UserRequests = () => {
                                     </div>
                         
                                 {datas.map((data) => (
-                                    <div key={data._id} className="flex flex-row justify-between px-4 py-2 hover:bg-cyan-400">
+                                    <div key={data._id} className="border-t-2 flex flex-row justify-between px-4 py-2 hover:bg-cyan-400">
                                         <div className='flex flex-row basis-5/6'>
-                                            <label className='font-medium flex w-1/2'> {data.yeuCauId.ten} </label>
+                                            <label className=' flex w-1/2'> {data.yeuCauId.ten} </label>
                                             <p className='font-normal flex w-1/2 text-center'> {data.phanHoi}</p>
                                         </div>
                                         <div className="flex basis-1/6 items-center justify-between">

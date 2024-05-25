@@ -68,6 +68,9 @@ const RoomRegister = () => {
         <div className="flex flex-col min-h-screen relative">
             <Header />
             <div className="pt-28 pb-96 flex flex-col flex-grow w-full items-center justify-center">
+                <div className="pb-5">
+                <h1 className="font-bold text-2xl pb-3 ">Đăng lý phòng họp</h1>
+                </div>
                 <div className="px-3 py-5 flex flex-row w-3/5 bg-[#A0E9FF] rounded-xl ">
                     <div className="flex basis-1/5 ">
                         <div className=" flex items-center  ">
