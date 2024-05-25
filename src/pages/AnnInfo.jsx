@@ -1,13 +1,35 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 const AnnInfo = () => {
-    const testDatas = [
-        {
-            id: '1', title: 'Đánh nhanh thua nhanh, đánh lâu cũng thua. Tốt nhất là cứ đánh',
-            date: '10-10-2024',
-            context: 'Hội thi sáng tạo kỹ thuật Thành phố Hồ Chí Minh được tổ chức nhằm thúc đẩy tinh thần sáng tạo của các nhà nghiên cứu khoa học, chuyên gia, cán bộ, công chức, người lao động trên địa bàn Thành phố Hồ Chí Minh, phát hiện những giải pháp sáng tạo trong lĩnh vực khoa học công nghệ và kỹ thuật, áp dụng có hiệu quả các giải pháp kỹ thuật, ứng dụng vào sản xuất và đời sống, góp phần phát triển kinh tế - xã hội của Thành phố Hồ Chí Minh. Lĩnh vực dự thi: các đề tài hoặc giải pháp kỹ thuật phục vụ sản xuất, đời sống, kinh tế, xã hội, an ninh và quốc phòng đều có quyền tham dự hội thi'
-        }]
+    const params = useParams();
+    const [title, setTitle] = useState("")
+    const [noiDung, setNoiDung] = useState("")
+    const [date, SetDate] = useState("")
+
+        useEffect(() => {
+            axios.get(`http://localhost:8081/v1/api/getThongBao/` + params.id )
+                .then(res => {
+                    setTitle(res.data.ten);
+                    setNoiDung(res.data.noiDung);
+                    let d = new Date(res.data.createdAt);
+                    let tempMonth
+                    if (((parseInt(d.getMonth())) + 1) < 10) {
+                        tempMonth = "0" + (d.getMonth() + 1);
+                    }
+                    SetDate(d.getDate() + "-" + tempMonth + "-" + d.getFullYear())
+
+                    
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+    
+    
+        }, [params._id, params.id]);
+    
     return (
 
         <div className="flex flex-col min-h-screen relative items-center">
@@ -15,14 +37,14 @@ const AnnInfo = () => {
             <div className=" pt-28 pb-96  flex flex-col flex-grow w-3/5">
                 <div className='pt-8 shadow-sm flex flex-col justify-between'>
                     <div className='py-5'>
-                        <h3 className='font-medium text-xl'>{testDatas[0].title}</h3>
+                        <h3 className='font-medium text-xl'>{title}</h3>
 
                     </div>
                     <div className=' pb-5'>
-                        <p className='font-thin italic'>{testDatas[0].date}</p>
+                        <p className='font-thin italic'>{date}</p>
                     </div>
                     <div className='pb-5'>
-                        <p className='font-normal tracking-wider leading-loose'>{testDatas[0].context}</p>
+                        <p className='font-normal tracking-wider leading-loose'>{noiDung}</p>
                     </div>
                     <div>
 

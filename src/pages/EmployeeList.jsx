@@ -5,13 +5,13 @@ import Footer from "../components/Footer";
 import { TiDelete } from "react-icons/ti";
 import { AppContexts } from "../contexts/AppContexts";
 
-
+import { useNavigate } from "react-router";
 const EmployeeList = () => {
 
     const { employees, fetchEmployees} = useContext(AppContexts);
     const [searchInput, setSearchInput] = useState("")
     const [searchEmployees, setSearchEmployees] = useState([]);
-
+    const navigate = useNavigate()
     useEffect(() => {
         let temp = [];
         for (let i = 0; i < employees.length; i++) {
@@ -60,7 +60,7 @@ const EmployeeList = () => {
                         <h1 className="text-black font-bold text-xl ">Danh sách các nhân viên</h1>
                     </div>
                     <div className="flex basis-1/5 ">
-                        <button
+                        <button onClick={()=>navigate("/them-nhan-vien")}
                              className="w-full py-2 px-2 rounded-lg bg-cyan-200 hover:bg-sky-400">Thêm nhân viên</button>
                     </div>
                 </div>
@@ -88,7 +88,7 @@ const EmployeeList = () => {
                             (
                                 searchEmployees.map((employee) => (
                                     <div key={employee._id} className="flex flex-row justify-between px-4 py-2 hover:bg-cyan-400">
-                                        <div className='flex flex-row basis-5/6'>
+                                        <div onClick={()=> navigate(`/danh-sach-nhan-vien/${employee._id}`)} className='flex flex-row basis-5/6 cursor-pointer'>
                                             <label className='font-medium flex w-1/2'> {employee.ten} </label>
                                             <p className='font-normal flex w-1/2 text-center'> {employee.phongBan=="NhanSu"? "Nhân Sự" : "Hành Chính"}</p>
                                         </div>

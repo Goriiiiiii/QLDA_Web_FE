@@ -5,19 +5,18 @@ import Footer from "../components/Footer";
 import { TiDelete } from "react-icons/ti";
 import { AppContexts } from "../contexts/AppContexts";
 
-
+import { useNavigate } from "react-router";
 const RequestList = () => {
 
-    const { requests, requestsHandling, employee} = useContext(AppContexts);
+    const { requestsHandling, fetchRequestsHandling} = useContext(AppContexts);
     const [searchInput, setSearchInput] = useState("")
     const [searchEmployees, setSearchEmployees] = useState([]);
-
+    const navigate = useNavigate()
     useEffect(() => {
         let temp = [];
         for (let i = 0; i < requestsHandling.length; i++) {
-            
             const searchQuery = searchInput.trim().toLowerCase()
-            const employeeName = requestsHandling[i].ten.toLowerCase()
+            const employeeName = requestsHandling[i].yeuCauID.ten.toLowerCase()
             const isMatch = (employeeName.includes(searchQuery))
             if (isMatch) temp.push(requestsHandling[i])
         }
@@ -26,7 +25,7 @@ const RequestList = () => {
     }, [requestsHandling, searchInput]);
 
     const handleDeleteBtn = (id) => {
-            fetch("http://localhost:8081/v1/api/deleteNhanVien", {
+            fetch("http://localhost:8081/v1/api/deleteYeuCauHandle", {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -40,11 +39,11 @@ const RequestList = () => {
         .then((data=>{
             if(data)
                 {
-                    alert("Sút thành công")
-                    
+                    alert("Xóa thành công")
+                    fetchRequestsHandling()
                 }
             else{
-                alert("Sút trượt")
+                alert("Xóa thất bại")
             }
         }) 
     
@@ -57,12 +56,8 @@ const RequestList = () => {
             <div className="pt-28 pb-96 flex flex-col flex-grow w-full items-center ">
                 <div className="flex flex-row items-center justify-between w-[60%]">
 
-                    <div className="flex justify-center pb-5 basis-4/5">
+                    <div className="flex justify-center pb-5">
                         <h1 className="text-black font-bold text-xl ">Danh sách các nhân viên</h1>
-                    </div>
-                    <div className="flex basis-1/5 ">
-                        <button
-                            onClick={() => { navigate("/them-nhan-vien") }} className="w-full py-2 px-2 rounded-lg bg-cyan-200 hover:bg-sky-400">Thêm nhân viên</button>
                     </div>
                 </div>
                 <div className="flex flex-col w-[60%] py-3">
@@ -78,24 +73,24 @@ const RequestList = () => {
                     <div  className="flex flex-row justify-between px-4 py-2">
                                         <div className='flex flex-row basis-5/6'>
                                             <label className='font-bold flex w-1/2'> Họ tên </label>
-                                            <p className='font-bold flex w-1/2 text-center'> Phòng Ban</p>
+                                            <p className='font-bold flex w-1/2 text-center'> Yêu cầu</p>
                                         </div>
                                         <div className="font-bold flex basis-1/6 items-center justify-between">
-                                            <label className=''>Số điện thoại</label>
+                                            <label className=''>Tình Trạng</label>
                                             
                                         </div>
                                     </div>
                         {searchEmployees.length != 0 ?
                             (
-                                searchEmployees.map((employee) => (
-                                    <div key={employee._id} className="flex flex-row justify-between px-4 py-2 hover:bg-cyan-400">
-                                        <div className='flex flex-row basis-5/6'>
-                                            <label className='font-medium flex w-1/2'> {employee.ten} </label>
-                                            <p className='font-normal flex w-1/2 text-center'> {employee.phongBan=="NhanSu"? "Nhân Sự" : "Hành Chính"}</p>
+                                searchEmployees.map((request) => (
+                                    <div key={request._id} className="flex flex-row justify-between px-4 py-2 hover:bg-cyan-400">
+                                        <div onClick={()=> navigate(`/danh-sach-nhan-vien/${request._id}`)} className='flex flex-row basis-5/6 cursor-pointer'>
+                                            <label className='font-medium flex w-1/2'> {request.nhanVienId.ten} </label>
+                                            <p className='font-normal flex w-1/2 text-center'> {request.yeuCauId.ten}</p>
                                         </div>
                                         <div className="flex basis-1/6 items-center justify-between">
-                                            <label className=''>{employee.soDienThoai}</label>
-                                            <TiDelete onClick={() => {handleDeleteBtn(employee._id)}} className="size-8 hover:text-red-500 cursor-pointer"/>
+                                            <label className=''>{request.nhanVienId.pheDuyet}</label>
+                                            <TiDelete onClick={() => {handleDeleteBtn(request._id)}} className="size-8 hover:text-red-500 cursor-pointer"/>
                                         </div>
                                     </div>
                                 )

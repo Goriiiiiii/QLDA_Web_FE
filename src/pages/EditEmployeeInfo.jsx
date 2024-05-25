@@ -2,27 +2,44 @@ import React, { useContext, useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 import { AppContexts } from '../contexts/AppContexts';
 import { useParams } from 'react-router-dom';
 
 const EditEmployeeInfo = () => {
     const userID = localStorage.getItem("id")
+    const navigate =useNavigate();
+    const params = useParams()
+    const { fetchEmployees} = useContext(AppContexts);
 
-    
-    const [allImages, setAllImages] = useState([])
-    const [image, setImage] = useState([])
-    const [imageGet, setImageGet] = useState([])
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [soDienThoai, setSoDienThoai] = useState('')
     const [ngaySinh, setNgaySinh] = useState(null)
     const [phongBan, setPhongBan] = useState('')
+    const [phongBanGet, setPhongBanGet] = useState('')
     const [chucVu, setChucVu] = useState(false)
+    const [CVDropdown, setCVDropdown] = useState(false);
+    const [pbDropdown, setPBDropdown] = useState(false);
 
-
+    function toggleCVDropdown() {
+        setCVDropdown(!CVDropdown);
+    }
+    const handleCVClick = (cv) => {
+        setChucVu(cv.giaTri);
+        setCVDropdown(false);
+    };
+    function togglePBDropdown() {
+        setPBDropdown(!pbDropdown);
+    }
+    const handlePBClick = (pb) => {
+        setPhongBan(pb.giaTri);
+        setPBDropdown(false);
+    };
+    const cvData = [{ loai: "Nhân viên", giaTri: false }, { loai: "Trưởng phòng", giaTri:true }]
+    const pbData = [{ loai: "Hành chính", giaTri: "HanhChinh" }, { loai: "Nhân sự", giaTri:"NhanSu" }]
     useEffect(() => {
-        axios.get(`http://localhost:8081/v1/api/getNhanVien/` + userID)
+        axios.get(`http://localhost:8081/v1/api/getNhanVien/` + params.id )
             .then(res => {
                 setName(res.data.ten);
                 setSoDienThoai(res.data.soDienThoai);
@@ -36,28 +53,28 @@ const EditEmployeeInfo = () => {
                 // console.log(res.data.phongBan)
                 setPhongBan(res.data.phongBan);
                 setChucVu(res.data.truongPhong);
-                setImage(res.data.avatar)
+                
             })
             .catch(err => {
                 console.log(err)
             })
 
 
-    }, [userID]);
+    }, [params._id, userID]);
 
 
     
     const handleClick = () => {
         const form = new FormData();
-        form.append("id", userID);
+        form.append("id", params.id);
         form.append("ten", name);
         let time = ngaySinh.split("-")
         const ngaySinhUpdate = time[2] + "/" + time[1] + "/" + time[0]
         form.append("ngaySinh", ngaySinhUpdate);
         form.append("soDienThoai", soDienThoai);
         form.append("email", email);
-        console.log(imageGet[0])
-        form.append("avatar", imageGet)
+        form.append("phongBan", phongBan);
+        form.append("truongPhong", chucVu);
 
         if (!email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
             alert("Email không hợp lệ")
@@ -73,6 +90,8 @@ const EditEmployeeInfo = () => {
         .then((res) => {
             if (res.data) {
                 alert("Sửa thành công")
+                navigate("/danh-sach-nhan-vien")
+                fetchEmployees()
             }
             else {
                 alert("Sửa thất bại")
@@ -84,31 +103,7 @@ const EditEmployeeInfo = () => {
         })
 
     }
-    const handleImageChange = (event) => {
-        setAllImages([])
-        setImageGet(event.target.files[0])
 
-        const files = event.target.files;
-        const imagesArray = [];
-
-        for (let i = 0; i < files.length; i++) {
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                imagesArray.push(e.target.result);
-                if (imagesArray.length === files.length) {
-                    setAllImages(prev => {
-                        setImage(imagesArray)
-
-                        return [...prev, ...imagesArray]
-                    });
-                }
-            };
-
-            reader.readAsDataURL(files[i]);
-        }
-
-    };
 
     return (
 
@@ -122,7 +117,7 @@ const EditEmployeeInfo = () => {
                             <p>Họ và tên</p>
                         </div>
                         <div className='flex basis-3/5'>
-                            <input value={name} className='border py-1 rounded-md pl-3 w-full'></input>
+                            <input onChange={(e)=> setName(e.target.value)} value={name} className='border py-1 rounded-md pl-3 w-full'></input>
                         </div>
                     </div>
                     <div className='py-5 pb-5  flex flex-row w-4/5 items-center'>
@@ -155,16 +150,42 @@ const EditEmployeeInfo = () => {
                             <p>Phòng ban</p>
                         </div>
                         <div className='flex basis-3/5'>
-                            <input value={phongBan} disabled className='border py-1 rounded-md pl-3 w-full'></input>
+                            <input onClick={togglePBDropdown} value={phongBan=="NhanSu"?"Nhân Sự":"Hành Chính"} className='border py-1 rounded-md pl-3 w-full'></input>
                         </div>
+                        {pbDropdown && (
+                        <div className=" mt-10 bg-cyan-300 rounded-xl absolute w-1/3 item">
+                            {pbData.map((pb,index) => (
+                                <div className="w-full px-3 py-2 hover:bg-cyan-950 hover:text-white" key={index}>
+                                    <button
+                                        className="w-full text-left"
+                                        onClick={() => handlePBClick(pb)}>
+                                        {pb.loai}
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                     </div>
                     <div className='py-5 pb-5  flex flex-row w-4/5'>
                         <div className='flex basis-1/5'>
                             <p>Chức vụ</p>
                         </div>
                         <div className='flex basis-3/5'>
-                            <input value={chucVu ? "Trưởng phòng" : "Nhân viên"} disabled className='border py-1 rounded-md pl-3 w-full'></input>
+                            <input onClick={toggleCVDropdown} value={chucVu ? "Trưởng phòng" : "Nhân viên"} className='border py-1 rounded-md pl-3 w-full'></input>
                         </div>
+                        {CVDropdown && (
+                        <div className=" mt-10 bg-cyan-300 rounded-xl absolute w-1/3 item">
+                            {cvData.map((cv,index) => (
+                                <div className="w-full px-3 py-2 hover:bg-cyan-950 hover:text-white" key={index}>
+                                    <button
+                                        className="w-full text-left"
+                                        onClick={() => handleCVClick(cv)}>
+                                        {cv.loai}
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                     </div>
                     <div className='pb-5'>
                         <button onClick={handleClick} className='px-3 py-3 bg-sky-200 rounded-lg hover:bg-sky-400'>Cập nhật thông tin</button>

@@ -14,6 +14,8 @@ import Requests from './pages/Requests';
 import EmployeeList from './pages/EmployeeList';
 import RequestList from './pages/RequestList';
 import AddAnn from './pages/AddAnn';
+import EditEmployeeInfo from './pages/EditEmployeeInfo';
+import AnnList from './pages/AnnList';
 function App() {
   return (
     <div className=''>
@@ -32,6 +34,8 @@ function App() {
             <Route path='/danh-sach-nhan-vien' element={<EmployeeList />}/>
             <Route path='/yeu-cau-can-xu-ly' element={<RequestList />}/>
             <Route path='/tao-thong-bao' element={<AddAnn/>}/>
+            <Route path='/danh-sach-nhan-vien/:id' element={<EditEmployeeInfo/>}/>
+            <Route path='/thong-bao/' element={<AnnList/>}/>
           </Routes>
         </BrowserRouter>
       </AppProvider>

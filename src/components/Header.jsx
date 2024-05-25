@@ -6,9 +6,14 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 const Header = () => {
     const [isLogin, setIsLogin] = useState(true);
     const [userDropdown, setUserDropdown] = useState(false)
+    const navigate = useNavigate()
     function toogleUserDropdown() {
         setUserDropdown(!userDropdown)
 
+    }
+    function handleLogOut (){
+        localStorage.clear()
+        navigate("/")
     }
     let userRef = useRef();
     useEffect(()=>{
@@ -23,7 +28,7 @@ const Header = () => {
         <div className="fixed w-full p-5 bg-[#A0E9FF]">
             
                 <div className=" h-auto place-items-center w-full flex flex-row justify-between">
-                    <div className="text-center w-1/5 h-full flex border border-bg-red col-lg justify-center items-center">
+                    <div className="text-center w-1/5 h-full flex border-bg-red col-lg justify-center items-center">
                     <Link to="/trang-chu">
                         <p className="hover:text-white text-3xl font-bold text-black cursor-pointer">
                             Công ty ABC
@@ -83,7 +88,7 @@ const Header = () => {
                                             <Link to="/danh-sach-nhan-vien">
                                             <li className="w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700">Quản lý nhân viên</li>
                                             </Link>
-                                            <li className="w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700">Đăng xuất</li>
+                                            <li onClick={handleLogOut} className="w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700">Đăng xuất</li>
                                             </ul>
                                         </div>
                                         )}
