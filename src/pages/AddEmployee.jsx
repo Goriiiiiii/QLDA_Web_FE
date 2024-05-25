@@ -14,8 +14,8 @@ const EmployeeInfo = () => {
     const [soDienThoai, setSoDienThoai] = useState('')
     const [ngaySinh, setNgaySinh] = useState(null)
     const [phongBan, setPhongBan] = useState('')
-    const [phongBan2, setPhongBan2] = useState(true)
-    const [chucVu, setChucVu] = useState(false)
+    const [phongBan2, setPhongBan2] = useState(null)
+    const [chucVu, setChucVu] = useState(null)
     const [taiKhoan, setTaiKhoan] = useState("")
     const [password, setPassWord] = useState("")
     const [password2, setPassWord2] = useState("")
@@ -163,7 +163,7 @@ const EmployeeInfo = () => {
                         </div>
                         <div className='flex basis-3/5'>
                             <button onClick={() => setPhongBanDropDown(true)} className='text-left border py-1 rounded-md pl-3 w-full'>
-                            {phongBan2? "Hành chính" : "Nhân Sự"}
+                            {phongBan2==true? "Hành chính" : phongBan2==false? "Nhân Sự":""}
                             </button>
                             {phongBanDropDown && (
                                 <div className=" mt-10 bg-cyan-300 rounded-xl absolute w-1/3 item">
@@ -193,7 +193,7 @@ const EmployeeInfo = () => {
                         </div>
                         <div className='flex basis-3/5'>
                             <button onClick={() => setChucVuDropDown(!chucVuDropDown)} className='border py-1 rounded-md pl-3 w-full text-left'>
-                            {chucVu? "Trưởng phòng" : "Nhân viên"}
+                            {chucVu==true? "Trưởng phòng" : chucVu==false?"Nhân viên":""}
                             </button>
                             {chucVuDropDown && (
                                 <div className=" mt-10 bg-cyan-300 rounded-xl absolute w-1/3 item">

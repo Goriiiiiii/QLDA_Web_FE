@@ -43,13 +43,13 @@ const RoomTimeTable = () => {
         <div className="flex flex-col min-h-screen relative">
             <Header />
             <div className="pt-28 pb-96 flex flex-col flex-grow w-full items-center justify-center">
-                <div className="flex flex-row w-3/5 py-3 px-2">
+                <div className="flex flex-row w-4/5 py-3 px-2">
                     <div className="flex justify-start basis-1/2">
                         <p
                             onClick={() => {
                                 setThuHaiHienTai(prev => prev - 7 * 24 * 60 * 60 * 1000)
                             }}
-                            className="text-cyan-800 hover:text-blue-700 cursor-pointer">Tuần trước đó</p>
+                            className="text-cyan-800 hover:text-blue-700 cursor-pointer"> Tuần trước đó</p>
                     </div>
                     <div className="flex  justify-end basis-1/2">
                         <p

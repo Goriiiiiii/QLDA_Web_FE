@@ -20,6 +20,7 @@ import EditRequest from './pages/EditRequest';
 import RegistedRoom from './pages/RegistedRoom';
 import ForgotPassword from './pages/ForgotPassword1';
 import ForgotPassword2 from './pages/ForgotPassword2';
+import UserRequests from './pages/UserRequests';
 function App() {
   return (
     <div className=''>
@@ -44,7 +45,7 @@ function App() {
             <Route path='/phong-da-dang-ky/' element={<RegistedRoom/>}/>
             <Route path='/quen-mat-khau/' element={<ForgotPassword/>}/>
             <Route path='/quen-mat-khau/ma-xac-nhan' element={<ForgotPassword2/>}/>
-
+            <Route path='/cac-yeu-cau' element={<UserRequests/>}/>
           </Routes>
         </BrowserRouter>
       </AppProvider>

@@ -6,11 +6,11 @@ import { TiDelete } from "react-icons/ti";
 import { AppContexts } from "../contexts/AppContexts";
 import axios from "axios";
 import { useNavigate } from "react-router";
-const [datas, setDatas] = useState([])
+
 const UserRequests = () => {
 
     const userID = localStorage.getItem("id")
-
+    const [datas, setDatas] = useState([])
 
     const navigate = useNavigate()
     
@@ -49,14 +49,13 @@ const UserRequests = () => {
                                 {datas.map((data) => (
                                     <div key={data._id} className="flex flex-row justify-between px-4 py-2 hover:bg-cyan-400">
                                         <div className='flex flex-row basis-5/6'>
-                                            <label className='font-medium flex w-1/2'> {data.nhanVienId.ten} </label>
-                                            <p className='font-normal flex w-1/2 text-center'> {request.yeuCauId.ten}</p>
+                                            <label className='font-medium flex w-1/2'> {data.yeuCauId.ten} </label>
+                                            <p className='font-normal flex w-1/2 text-center'> {data.phanHoi}</p>
                                         </div>
                                         <div className="flex basis-1/6 items-center justify-between">
-                                            <label className={`${request.pheDuyet == true ?"text-green-500": request.pheDuyet == false? "text-red-500":"text-blue-700"}`}>
-                                                {request.pheDuyet == true ?"Đã duyệt": request.pheDuyet == false? "Đã từ chối":"Chưa xử lý"}
+                                            <label className={`${data.pheDuyet == true ?"text-green-500": data.pheDuyet == false? "text-red-500":"text-blue-700"}`}>
+                                                {data.pheDuyet == true ?"Đã duyệt": data.pheDuyet == false? "Đã từ chối":"Chưa xử lý"}
                                                 </label>
-                                            <TiDelete onClick={() => {handleDeleteBtn(request._id)}} className="size-8 hover:text-red-500 cursor-pointer"/>
                                         </div>
                                     </div>
                                 )

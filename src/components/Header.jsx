@@ -8,12 +8,14 @@ import axios from "axios";
 const Header = () => {
     const userID = localStorage.getItem("id")
 const[chucVu, setChucVu] = useState(false)
-
+const[phongBan, setPhongBan] = useState("")
     useEffect(() => {
         axios.get(`http://localhost:8081/v1/api/getNhanVien/` + userID )
             .then(res => {
 
                 setChucVu(res.data.truongPhong);
+                setPhongBan(res.data.phongBan)
+
                 
             })
             .catch(err => {
@@ -59,7 +61,7 @@ const[chucVu, setChucVu] = useState(false)
 
                     <div className=" flex flex-row w-full items-center h-auto justify-end">
 
-                        <div className={"h-full text-black  flex flex-row justify-around" + `${chucVu?" w-4/5":" w-3/5 "}`}>
+                        <div className={"h-full text-black  flex flex-row justify-around" + `${chucVu?" w-2/3":" w-3/5 "}`}>
                             <div>
                             <Link to="/gui-yeu-cau">
                                 <a href="#" className='cursor-pointer hover:text-red-500 '>Tạo yêu cầu</a>
@@ -67,10 +69,10 @@ const[chucVu, setChucVu] = useState(false)
                             </div>
                             <div className={`${chucVu?"":"hidden"}`}>
                             <Link to="/yeu-cau-can-xu-ly">
-                                <a href="#" className='cursor-pointer hover:text-red-500 '>Xét yêu cầu</a>
+                                <a href="#" className={'cursor-pointer hover:text-red-500' + `${phongBan=="HanhChinh"?" hidden":""}`}>Xét yêu cầu</a>
                                 </Link>
                             </div>
-                            <div className={`${chucVu?"":"hidden"}`}>
+                            <div className={`${chucVu?"":"hidden"}` + `${phongBan=="HanhChinh"?"":" hidden"}`}>
                             <Link to="/tao-thong-bao">
                                 <a href="#" className='cursor-pointer hover:text-red-500 '>Tạo thông báo</a>
                                 </Link>
@@ -107,8 +109,11 @@ const[chucVu, setChucVu] = useState(false)
                                             <Link to="/phong-da-dang-ky">
                                             <li className="w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700 pl-2">Thông tin phòng đăng ký</li>
                                             </Link>
+                                            <Link to="/cac-yeu-cau">
+                                            <li className="w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700 pl-2">Thông tin các yêu cầu</li>
+                                            </Link>
                                             <Link to="/danh-sach-nhan-vien">
-                                            <li className={"w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700 pl-2"+ `${chucVu?"":" hidden"}`}>Quản lý nhân viên</li>
+                                            <li className={"w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700 pl-2"+ `${chucVu?"":" hidden"}` + `${phongBan=="NhanSu"?"":" hidden"}`}>Quản lý nhân viên</li>
                                             </Link>
                                             <li onClick={handleLogOut} className="cursor-pointer pl-2 w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700">Đăng xuất</li>
                                             </ul>

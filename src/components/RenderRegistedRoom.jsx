@@ -32,9 +32,9 @@ const RenderRegisterRoom = ({ datas }) => {
                             <div>
                                 <p>{data.ten}</p>
                             </div>
-                            <div className='flex flex-col'>
+                            <div className='flex flex-col '>
                             {data.lichDangKy.map((lich) => (
-                                <div key={lich._id} >
+                                <div className='border-t-4 border-cyan-500 mb-4' key={lich._id} >
                                     <p>{getDate(lich.ngayDangKy)}</p>
                                 
                                 </div>
