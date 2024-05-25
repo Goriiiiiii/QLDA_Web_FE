@@ -35,15 +35,15 @@ const AnnInfo = () => {
         <div className="flex flex-col min-h-screen relative items-center">
             <Header />
             <div className=" pt-28 pb-96  flex flex-col flex-grow w-3/5">
-                <div className='pt-8 shadow-sm flex flex-col justify-between'>
-                    <div className='py-5'>
+                <div className='pt-8 shadow-xl flex flex-col justify-between'>
+                    <div className='px-5 py-5'>
                         <h3 className='font-medium text-xl'>{title}</h3>
 
                     </div>
-                    <div className=' pb-5'>
+                    <div className='px-5 pb-5'>
                         <p className='font-thin italic'>{date}</p>
                     </div>
-                    <div className='pb-5'>
+                    <div className='px-5 pb-5'>
                         <p className='font-normal tracking-wider leading-loose'>{noiDung}</p>
                     </div>
                     <div>

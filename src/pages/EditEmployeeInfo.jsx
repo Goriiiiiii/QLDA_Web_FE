@@ -8,9 +8,9 @@ import { useParams } from 'react-router-dom';
 
 const EditEmployeeInfo = () => {
     const userID = localStorage.getItem("id")
-    const navigate =useNavigate();
+    const navigate = useNavigate();
     const params = useParams()
-    const { fetchEmployees} = useContext(AppContexts);
+    const { fetchEmployees } = useContext(AppContexts);
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -36,10 +36,10 @@ const EditEmployeeInfo = () => {
         setPhongBan(pb.giaTri);
         setPBDropdown(false);
     };
-    const cvData = [{ loai: "Nhân viên", giaTri: false }, { loai: "Trưởng phòng", giaTri:true }]
-    const pbData = [{ loai: "Hành chính", giaTri: "HanhChinh" }, { loai: "Nhân sự", giaTri:"NhanSu" }]
+    const cvData = [{ loai: "Nhân viên", giaTri: false }, { loai: "Trưởng phòng", giaTri: true }]
+    const pbData = [{ loai: "Hành chính", giaTri: "HanhChinh" }, { loai: "Nhân sự", giaTri: "NhanSu" }]
     useEffect(() => {
-        axios.get(`http://localhost:8081/v1/api/getNhanVien/` + params.id )
+        axios.get(`http://localhost:8081/v1/api/getNhanVien/` + params.id)
             .then(res => {
                 setName(res.data.ten);
                 setSoDienThoai(res.data.soDienThoai);
@@ -53,7 +53,7 @@ const EditEmployeeInfo = () => {
                 // console.log(res.data.phongBan)
                 setPhongBan(res.data.phongBan);
                 setChucVu(res.data.truongPhong);
-                
+
             })
             .catch(err => {
                 console.log(err)
@@ -63,7 +63,7 @@ const EditEmployeeInfo = () => {
     }, [params._id, userID]);
 
 
-    
+
     const handleClick = () => {
         const form = new FormData();
         form.append("id", params.id);
@@ -76,31 +76,31 @@ const EditEmployeeInfo = () => {
         form.append("phongBan", phongBan);
         form.append("truongPhong", chucVu);
 
-        if (!email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
+        if (!email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
             alert("Email không hợp lệ")
             return
         }
-        if (!soDienThoai.match(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/)){
+        if (!soDienThoai.match(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/)) {
             alert("Số điện thoại không hợp lệ")
             return
         }
-        axios.put("http://localhost:8081/v1/api/updateNhanVien", form,  {
+        axios.put("http://localhost:8081/v1/api/updateNhanVien", form, {
             headers: { "Content-Type": "multipart/form-data" },
         })
-        .then((res) => {
-            if (res.data) {
-                alert("Sửa thành công")
-                navigate("/danh-sach-nhan-vien")
-                fetchEmployees()
+            .then((res) => {
+                if (res.data) {
+                    alert("Sửa thành công")
+                    navigate("/danh-sach-nhan-vien")
+                    fetchEmployees()
+                }
+                else {
+                    alert("Sửa thất bại")
+                }
             }
-            else {
-                alert("Sửa thất bại")
-            }
-        }
-        )
-        .catch(err => {
-            console.log(err)
-        })
+            )
+            .catch(err => {
+                console.log(err)
+            })
 
     }
 
@@ -111,13 +111,16 @@ const EditEmployeeInfo = () => {
             <Header />
             <div className=" pt-28 pb-96  flex flex-col flex-grow w-3/5 items-center justify-center ">
                 <div className='mt-8 shadow-xl flex flex-col justify-between items-center w-10/12'>
+                    <div className='pb-5'>
+                        <h1 className='font-medium text-xl' >Thông tin nhân viên {name}</h1>
+                    </div>
                     <div className='py-5 pb-5  flex flex-row w-4/5'>
 
                         <div className='flex basis-1/5 items-center'>
                             <p>Họ và tên</p>
                         </div>
                         <div className='flex basis-3/5'>
-                            <input onChange={(e)=> setName(e.target.value)} value={name} className='border py-1 rounded-md pl-3 w-full'></input>
+                            <input onChange={(e) => setName(e.target.value)} value={name} className='border py-1 rounded-md pl-3 w-full'></input>
                         </div>
                     </div>
                     <div className='py-5 pb-5  flex flex-row w-4/5 items-center'>
@@ -125,7 +128,7 @@ const EditEmployeeInfo = () => {
                             <p>Số điện thoại</p>
                         </div>
                         <div className='flex basis-3/5'>
-                            <input onChange={(e)=> setSoDienThoai(e.target.value)} value={soDienThoai} className='border py-1 rounded-md pl-3 w-full'></input>
+                            <input onChange={(e) => setSoDienThoai(e.target.value)} value={soDienThoai} className='border py-1 rounded-md pl-3 w-full'></input>
                         </div>
                     </div>
                     <div className='py-5 pb-5  flex flex-row w-4/5 items-center'>
@@ -133,7 +136,7 @@ const EditEmployeeInfo = () => {
                             <p>Email</p>
                         </div>
                         <div className='flex basis-3/5'>
-                            <input onChange={(e)=> setEmail(e.target.value)} value={email} className='border py-1 rounded-md pl-3 w-full'></input>
+                            <input onChange={(e) => setEmail(e.target.value)} value={email} className='border py-1 rounded-md pl-3 w-full'></input>
                         </div>
                     </div>
                     <div className='py-5 pb-5  flex flex-row w-4/5 items-center'>
@@ -150,21 +153,21 @@ const EditEmployeeInfo = () => {
                             <p>Phòng ban</p>
                         </div>
                         <div className='flex basis-3/5'>
-                            <input onClick={togglePBDropdown} value={phongBan=="NhanSu"?"Nhân Sự":"Hành Chính"} className='border py-1 rounded-md pl-3 w-full'></input>
+                            <input onClick={togglePBDropdown} value={phongBan == "NhanSu" ? "Nhân Sự" : "Hành Chính"} className='border py-1 rounded-md pl-3 w-full'></input>
                         </div>
                         {pbDropdown && (
-                        <div className=" mt-10 bg-cyan-300 rounded-xl absolute w-1/3 item">
-                            {pbData.map((pb,index) => (
-                                <div className="w-full px-3 py-2 hover:bg-cyan-950 hover:text-white" key={index}>
-                                    <button
-                                        className="w-full text-left"
-                                        onClick={() => handlePBClick(pb)}>
-                                        {pb.loai}
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                            <div className=" mt-10 bg-cyan-300 rounded-xl absolute w-1/3 item">
+                                {pbData.map((pb, index) => (
+                                    <div className="w-full px-3 py-2 hover:bg-cyan-950 hover:text-white" key={index}>
+                                        <button
+                                            className="w-full text-left"
+                                            onClick={() => handlePBClick(pb)}>
+                                            {pb.loai}
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                     <div className='py-5 pb-5  flex flex-row w-4/5'>
                         <div className='flex basis-1/5'>
@@ -174,18 +177,18 @@ const EditEmployeeInfo = () => {
                             <input onClick={toggleCVDropdown} value={chucVu ? "Trưởng phòng" : "Nhân viên"} className='border py-1 rounded-md pl-3 w-full'></input>
                         </div>
                         {CVDropdown && (
-                        <div className=" mt-10 bg-cyan-300 rounded-xl absolute w-1/3 item">
-                            {cvData.map((cv,index) => (
-                                <div className="w-full px-3 py-2 hover:bg-cyan-950 hover:text-white" key={index}>
-                                    <button
-                                        className="w-full text-left"
-                                        onClick={() => handleCVClick(cv)}>
-                                        {cv.loai}
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                            <div className=" mt-10 bg-cyan-300 rounded-xl absolute w-1/3 item">
+                                {cvData.map((cv, index) => (
+                                    <div className="w-full px-3 py-2 hover:bg-cyan-950 hover:text-white" key={index}>
+                                        <button
+                                            className="w-full text-left"
+                                            onClick={() => handleCVClick(cv)}>
+                                            {cv.loai}
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                     <div className='pb-5'>
                         <button onClick={handleClick} className='px-3 py-3 bg-sky-200 rounded-lg hover:bg-sky-400'>Cập nhật thông tin</button>

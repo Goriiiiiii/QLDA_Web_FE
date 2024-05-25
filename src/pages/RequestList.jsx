@@ -55,13 +55,8 @@ const RequestList = () => {
         <div className="flex flex-col min-h-screen relative">
             <Header />
             <div className="pt-28 pb-96 flex flex-col flex-grow w-full items-center ">
-                <div className="flex flex-row items-center justify-between w-[60%]">
 
-                    <div className="flex justify-center pb-5">
-                        <h1 className="text-black font-bold text-xl ">Danh sách các nhân viên</h1>
-                    </div>
-                </div>
-                <div className="flex flex-col w-[60%] py-3">
+                <div className="flex flex-col w-[60%] py-3 ">
                     <div className="flex flex-row bg-cyan-200 rounded-xl">
                         <div className="flex basis-1/4 justify-center">
                             <h3 className="text-xl font-normal: py-2 px-4 ">Tìm kiếm</h3>
@@ -70,7 +65,7 @@ const RequestList = () => {
                             <input value={searchInput} onChange={(e) => setSearchInput(e.target.value)} className="w-full border rounded-lg px-3"></input>
                         </div>
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col pt-5">
                     <div  className="flex flex-row justify-between px-4 py-2">
                                         <div className='flex flex-row basis-5/6'>
                                             <label className='font-bold flex w-1/2'> Họ tên </label>
@@ -85,12 +80,14 @@ const RequestList = () => {
                             (
                                 searchEmployees.map((request) => (
                                     <div key={request._id} className="flex flex-row justify-between px-4 py-2 hover:bg-cyan-400">
-                                        <div className='flex flex-row basis-5/6 cursor-pointer'>
+                                        <div onClick={()=> navigate(`/danh-sach-yeu-cau/${request._id}`)} className='flex flex-row basis-5/6 cursor-pointer'>
                                             <label className='font-medium flex w-1/2'> {request.nhanVienId.ten} </label>
                                             <p className='font-normal flex w-1/2 text-center'> {request.yeuCauId.ten}</p>
                                         </div>
                                         <div className="flex basis-1/6 items-center justify-between">
-                                            <label className=''>{request.nhanVienId.pheDuyet}</label>
+                                            <label className={`${request.pheDuyet == true ?"text-green-500": request.pheDuyet == false? "text-red-500":"text-blue-700"}`}>
+                                                {request.pheDuyet == true ?"Đã duyệt": request.pheDuyet == false? "Đã từ chối":"Chưa xử lý"}
+                                                </label>
                                             <TiDelete onClick={() => {handleDeleteBtn(request._id)}} className="size-8 hover:text-red-500 cursor-pointer"/>
                                         </div>
                                     </div>

@@ -16,6 +16,10 @@ import RequestList from './pages/RequestList';
 import AddAnn from './pages/AddAnn';
 import EditEmployeeInfo from './pages/EditEmployeeInfo';
 import AnnList from './pages/AnnList';
+import EditRequest from './pages/EditRequest';
+import RegistedRoom from './pages/RegistedRoom';
+import ForgotPassword from './pages/ForgotPassword1';
+import ForgotPassword2 from './pages/ForgotPassword2';
 function App() {
   return (
     <div className=''>
@@ -36,6 +40,11 @@ function App() {
             <Route path='/tao-thong-bao' element={<AddAnn/>}/>
             <Route path='/danh-sach-nhan-vien/:id' element={<EditEmployeeInfo/>}/>
             <Route path='/thong-bao/' element={<AnnList/>}/>
+            <Route path='/danh-sach-yeu-cau/:id' element={<EditRequest/>}/>
+            <Route path='/phong-da-dang-ky/' element={<RegistedRoom/>}/>
+            <Route path='/quen-mat-khau/' element={<ForgotPassword/>}/>
+            <Route path='/quen-mat-khau/ma-xac-nhan' element={<ForgotPassword2/>}/>
+
           </Routes>
         </BrowserRouter>
       </AppProvider>

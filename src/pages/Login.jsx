@@ -63,7 +63,10 @@ const Login = () => {
                         />
                     </div>
                 </div>
-                <div className="flex justify-center items-center py-5">
+                <div className=" text-right px-3 py-5">
+                    <p onClick={()=>navigate("/quen-mat-khau")} className="text-lg italic text-sky-600 hover:font-medium hover:text-blue-600 cursor-pointer"> Quên mật khẩu?</p>
+                </div>
+                <div className="flex justify-center items-center py-3">
                     <button onClick={handleClick} className="bg-cyan-200 rounded-xl text-zinc-500 text-lg px-16 py-2 hover:bg-cyan-700 hover:text-white ">Đăng nhập</button>
                 </div>
 

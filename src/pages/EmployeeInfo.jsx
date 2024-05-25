@@ -116,10 +116,18 @@ const EmployeeInfo = () => {
             <Header />
             <div className=" pt-28 pb-96  flex flex-col flex-grow w-3/5 items-center justify-center ">
                 <div className='mt-8 shadow-xl flex flex-col justify-between items-center w-10/12'>
-                    <div >
+                <div className='pb-5'>
+                        <h1 className='font-medium text-xl' >Thông tin nhân viên</h1>
+                    </div>
+                    <div className='flex flex-col items-center justify-between w-3/4'>
+                        <div>
                         <img src={image} className=' w-40 h-40 rounded-full' />
+                        </div>
+                        <div className='py-5'>
                         <input type="file" name="upload" accept='.png, .jpg'
                             onChange={handleImageChange}></input>
+                            </div>
+                            
 
                     </div>
                     <div className='py-5 pb-5  flex flex-row w-4/5'>

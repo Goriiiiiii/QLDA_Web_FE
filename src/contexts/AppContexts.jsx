@@ -4,7 +4,7 @@ import axios from "axios";
 export const AppContexts = createContext({})
 
 export const AppProvider = ({ children }) => {
-
+    const[email, setEmail] = useState("")
     const [anns, setAnns] = useState([]);
     const [requests, setRequests] = useState([]);
     const [requestsHandling, setRequestsHandling] = useState([]);
@@ -73,6 +73,7 @@ export const AppProvider = ({ children }) => {
     return (
         <AppContexts.Provider value={{
             anns, setAnns,
+            email, setEmail,
             requests, setRequests,
             requestsHandling, setRequestsHandling,
             employees, setEmployees,

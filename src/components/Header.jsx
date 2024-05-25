@@ -8,7 +8,7 @@ import axios from "axios";
 const Header = () => {
     const userID = localStorage.getItem("id")
 const[chucVu, setChucVu] = useState(false)
-const[visible, setVisible] = useState("")
+
     useEffect(() => {
         axios.get(`http://localhost:8081/v1/api/getNhanVien/` + userID )
             .then(res => {
@@ -22,13 +22,7 @@ const[visible, setVisible] = useState("")
 
 
     }, []);
-    useEffect(() => {
-        if (chucVu==false)
-            {
-                setVisible("")
-            }
 
-    }, []);
 
     const [isLogin, setIsLogin] = useState(true);
     const [userDropdown, setUserDropdown] = useState(false)
@@ -42,6 +36,7 @@ const[visible, setVisible] = useState("")
         navigate("/")
     }
     let userRef = useRef();
+    
     useEffect(()=>{
         let handler = (e) =>{
             if(!userRef.current.contains(e.target))
@@ -62,22 +57,22 @@ const[visible, setVisible] = useState("")
                         </Link>
                     </div>
 
-                    <div className=" flex flex-row w-3/5 justify-between items-center h-auto">
+                    <div className=" flex flex-row w-full items-center h-auto justify-end">
 
-                        <div className='h-full w-4/5 ml-5 text-black  flex flex-row justify-between'>
+                        <div className={"h-full text-black  flex flex-row justify-around" + `${chucVu?" w-4/5":" w-3/5 "}`}>
                             <div>
                             <Link to="/gui-yeu-cau">
-                                <a href="#" className={'cursor-pointer hover:text-red-500 '}>Tạo yêu cầu</a>
+                                <a href="#" className='cursor-pointer hover:text-red-500 '>Tạo yêu cầu</a>
                                 </Link>
                             </div>
-                            <div className="">
+                            <div className={`${chucVu?"":"hidden"}`}>
                             <Link to="/yeu-cau-can-xu-ly">
-                                <a href="#" className={'cursor-pointer hover:text-red-500 ' + visible}>Xét yêu cầu</a>
+                                <a href="#" className='cursor-pointer hover:text-red-500 '>Xét yêu cầu</a>
                                 </Link>
                             </div>
-                            <div className="">
+                            <div className={`${chucVu?"":"hidden"}`}>
                             <Link to="/tao-thong-bao">
-                                <a href="#" className={'cursor-pointer hover:text-red-500 ' + visible}>Tạo thông báo</a>
+                                <a href="#" className='cursor-pointer hover:text-red-500 '>Tạo thông báo</a>
                                 </Link>
                             </div>
                             <div className="">
@@ -91,7 +86,7 @@ const[visible, setVisible] = useState("")
                                 </Link>
                             </div>
                         </div>
-                        <div className="w-1/5 flex flex-col justify-center items-center relative">
+                        <div className="w-1/6 flex flex-col justify-center items-center relative">
                             {isLogin ?
                                 (
 
@@ -104,16 +99,18 @@ const[visible, setVisible] = useState("")
                                         />
                                         </div>
                                         {userDropdown && (
-                                        <div ref={userRef} className="mt-3 bg-cyan-300 rounded-xl w-[140%] -inset-x-14 absolute flex flex-col justify-center items-center">
-                                            <ul className="w-full font-semibold pl-2">
+                                        <div ref={userRef} className="mt-5 bg-cyan-300 rounded-xl w-[140%] -inset-x-36 absolute flex flex-col justify-center items-center">
+                                            <ul className="w-full font-semibold">
                                             <Link to="/tai-khoan">
-                                            <li className="w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700">Thông tin tài khoản</li>
+                                            <li className="w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700 pl-2">Thông tin tài khoản</li>
                                             </Link>
-
+                                            <Link to="/phong-da-dang-ky">
+                                            <li className="w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700 pl-2">Thông tin phòng đăng ký</li>
+                                            </Link>
                                             <Link to="/danh-sach-nhan-vien">
-                                            <li className="w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700">Quản lý nhân viên</li>
+                                            <li className={"w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700 pl-2"+ `${chucVu?"":" hidden"}`}>Quản lý nhân viên</li>
                                             </Link>
-                                            <li onClick={handleLogOut} className="w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700">Đăng xuất</li>
+                                            <li onClick={handleLogOut} className="cursor-pointer pl-2 w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700">Đăng xuất</li>
                                             </ul>
                                         </div>
                                         )}
