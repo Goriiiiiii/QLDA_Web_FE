@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 import { AppContexts } from '../contexts/AppContexts';
 import { useParams } from 'react-router-dom';
 
@@ -19,8 +19,8 @@ const EmployeeInfo = () => {
     const [taiKhoan, setTaiKhoan] = useState("")
     const [password, setPassWord] = useState("")
     const [password2, setPassWord2] = useState("")
-
-
+    const navigate = useNavigate()
+    const {fetchEmployees} = useContext(AppContexts)
 
     const handleClick = () => {
         const form = new FormData();
@@ -63,6 +63,8 @@ const EmployeeInfo = () => {
             .then((res) => {
                 if (res.data) {
                     alert("Thêm thành công")
+                    navigate("/danh-sach-nhan-vien")
+                    fetchEmployees()
                 }
                 else {
                     alert("Thêm thất bại")

@@ -6,11 +6,15 @@ import Announcement from "../components/Announcement";
 import { AppContexts } from "../contexts/AppContexts";
 const Home = () => {
 
+    
     const { anns } = useContext(AppContexts);
     return (
         <div className="flex flex-col min-h-screen relative">
             <Header />
             <div className="pt-28 pb-96 flex flex-col flex-grow w-full items-center ">
+            <div className="flex justify-center pb-5">
+                    <h1 className="text-black font-bold text-2xl ">Chúc mừng sinh nhật</h1>
+                </div>
                 <div className="flex justify-center pb-5">
                     <h1 className="text-black font-bold text-2xl ">Thông báo</h1>
                 </div>
@@ -37,7 +41,7 @@ const Home = () => {
                         <h3 className="text-xl font-medium py-2 bg-sky-500 px-4">Thông báo phòng họp</h3>
                     </div>
                     <div>
-                        <Announcement options={anns} type={'Phong'}/>
+                        <Announcement options={anns} type={'PhongHop'}/>
                     </div>
                 </div>
             </div>

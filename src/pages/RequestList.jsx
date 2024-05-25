@@ -12,11 +12,12 @@ const RequestList = () => {
     const [searchInput, setSearchInput] = useState("")
     const [searchEmployees, setSearchEmployees] = useState([]);
     const navigate = useNavigate()
+    
     useEffect(() => {
         let temp = [];
         for (let i = 0; i < requestsHandling.length; i++) {
             const searchQuery = searchInput.trim().toLowerCase()
-            const employeeName = requestsHandling[i].yeuCauID.ten.toLowerCase()
+            const employeeName = requestsHandling[i].yeuCauId.ten.toLowerCase()
             const isMatch = (employeeName.includes(searchQuery))
             if (isMatch) temp.push(requestsHandling[i])
         }
@@ -84,7 +85,7 @@ const RequestList = () => {
                             (
                                 searchEmployees.map((request) => (
                                     <div key={request._id} className="flex flex-row justify-between px-4 py-2 hover:bg-cyan-400">
-                                        <div onClick={()=> navigate(`/danh-sach-nhan-vien/${request._id}`)} className='flex flex-row basis-5/6 cursor-pointer'>
+                                        <div className='flex flex-row basis-5/6 cursor-pointer'>
                                             <label className='font-medium flex w-1/2'> {request.nhanVienId.ten} </label>
                                             <p className='font-normal flex w-1/2 text-center'> {request.yeuCauId.ten}</p>
                                         </div>

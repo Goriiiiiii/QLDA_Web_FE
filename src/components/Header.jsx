@@ -2,8 +2,34 @@ import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useNavigate } from "react-router-dom";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
+import axios from "axios";
 // import {NavLink} from "react-router"
+
 const Header = () => {
+    const userID = localStorage.getItem("id")
+const[chucVu, setChucVu] = useState(false)
+const[visible, setVisible] = useState("")
+    useEffect(() => {
+        axios.get(`http://localhost:8081/v1/api/getNhanVien/` + userID )
+            .then(res => {
+
+                setChucVu(res.data.truongPhong);
+                
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+
+    }, []);
+    useEffect(() => {
+        if (chucVu==false)
+            {
+                setVisible("")
+            }
+
+    }, []);
+
     const [isLogin, setIsLogin] = useState(true);
     const [userDropdown, setUserDropdown] = useState(false)
     const navigate = useNavigate()
@@ -41,17 +67,17 @@ const Header = () => {
                         <div className='h-full w-4/5 ml-5 text-black  flex flex-row justify-between'>
                             <div>
                             <Link to="/gui-yeu-cau">
-                                <a href="#" className='cursor-pointer hover:text-red-500 '>Tạo yêu cầu</a>
+                                <a href="#" className={'cursor-pointer hover:text-red-500 '}>Tạo yêu cầu</a>
                                 </Link>
                             </div>
                             <div className="">
                             <Link to="/yeu-cau-can-xu-ly">
-                                <a href="#" className='cursor-pointer hover:text-red-500 '>Xét yêu cầu</a>
+                                <a href="#" className={'cursor-pointer hover:text-red-500 ' + visible}>Xét yêu cầu</a>
                                 </Link>
                             </div>
                             <div className="">
                             <Link to="/tao-thong-bao">
-                                <a href="#" className='cursor-pointer hover:text-red-500 '>Tạo thông báo</a>
+                                <a href="#" className={'cursor-pointer hover:text-red-500 ' + visible}>Tạo thông báo</a>
                                 </Link>
                             </div>
                             <div className="">
@@ -83,8 +109,7 @@ const Header = () => {
                                             <Link to="/tai-khoan">
                                             <li className="w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700">Thông tin tài khoản</li>
                                             </Link>
-                                            <li className="w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700">Thông tin yêu cầu</li>
-                                            <li className="w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700"> Thông tin phòng đăng ký</li>
+
                                             <Link to="/danh-sach-nhan-vien">
                                             <li className="w-full rounded-md py-5 hover:text-zinc-100 hover:bg-cyan-700">Quản lý nhân viên</li>
                                             </Link>
